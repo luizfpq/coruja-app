@@ -2,7 +2,7 @@
 
 
 # Coruja Anti-theft System
-An anti-theft system  based in python.
+Python based anti-theft system.
 
 #### Why Coruja?
 
