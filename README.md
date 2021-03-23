@@ -1,4 +1,4 @@
-<img src="/assets/icon-lebre.png" alt="Lebre Icon" width="100px" align="right">
+<img src="/assets/icons8-owl-64.png" alt="Coruja Icon" width="100px" align="right">
 
 
 # Coruja Anti-theft System
