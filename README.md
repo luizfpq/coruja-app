@@ -14,4 +14,4 @@ Coruja (Owl in english) is an animal that usually represents wisdom and vigilanc
  - [PORTUGUÊS (pt-br)](README-pt-br.md)
 
 
-<a href="https://icons8.com/icon/95136/owl">Owl icon by Icons8</a>
+<a target="_blank" href="https://icons8.com/icons/set/owl--v2">Owl icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
