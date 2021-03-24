@@ -15,5 +15,5 @@ import os
 from app.update import update
 from app.main import *
 
-
-update()
+path=(os.path.dirname(__file__))
+update(path)

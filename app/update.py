@@ -13,10 +13,10 @@ __email__ = "luizfpq@gmail.com"
 __status__ = "Testing"
 
 
-def update():
+def update(path):
     release = requests.get("https://raw.githubusercontent.com/luizfpq/coruja/main/app/releases")
     if(release.text > __version__):
-        cmd = "cd .. && git pull origin main"
+        cmd = "cd {} && git stash && git pull origin main".format(path)
         returned_value = os.system(cmd)  # returns the exit code in unix
         if(returned_value == 0):
             print("Sistema Atualizado com sucesso")
