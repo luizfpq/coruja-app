@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Foobar.py: Description of what foobar does."""
+"""main.py: Inicializa a aplicação, verifica se está atualizada e se necessário se auto atualiza."""
 
 __author__      = "Luiz Quirino"
 __copyright__   = "Copyleft 2021, Solar System"
 __license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "Rob Knight"
-__email__ = "rob@spot.colorado.edu"
-__status__ = "Production"
-import requests
-from lxml import etree
+__version__ = "0.0.1"
+__maintainer__ = "Luiz Quirino"
+__email__ = "luizfpq@gmail.com"
+__status__ = "Testing"
 
-response = requests.get("https://github.com/luizfpq/coruja/app/releases")
-html = etree.HTML(response.text)
-Version = html.xpath("/html/body/div[4]/div/main/div[3]/div/div[2]/div[1]/div/div[2]/div[1]/div/div/a")
-print(Version)
+import requests
+import os
+
+release = requests.get("https://raw.githubusercontent.com/luizfpq/coruja/main/app/releases")
+if(release.text > __version__) :
+    cmd = "git "
