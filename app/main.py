@@ -50,7 +50,7 @@ def get_ip() :
 
 def submit(HASH,DATE_TIME, IP) :
     # defining the api-endpoint
-    API_ENDPOINT = "https://ironqui-301.herokuapp.com/check"
+    API_ENDPOINT = "https://ironqui-301.herokuapp.com/api/check"
     # your API key here
     #API_KEY = "XXXXXXXXXXXXXXXXX"
     # data to be sent to api
