@@ -23,6 +23,7 @@ def start() :
     HASH=hashlib.md5(dados.encode('utf-8'))
     DATE_TIME=get_time()
     IP=get_ip()
+    print("{} {} {}".format(HASH.hexdigest(), IP, DATE_TIME))
     result=submit(HASH.hexdigest(), DATE_TIME, IP)
 
 
@@ -55,12 +56,12 @@ def submit(HASH,DATE_TIME, IP) :
     # data to be sent to api
     data = {
             'hard_key': HASH,
-            'IP': IP,
+            'ip': IP,
             'date_time': DATE_TIME
             }
 
     # sending post request and saving response as response object
-    r = requests.post(url=API_ENDPOINT, data=data)
+    r = requests.get(url=API_ENDPOINT, data=data)
     # extracting response text
     return_url = r.text
     return return_url
