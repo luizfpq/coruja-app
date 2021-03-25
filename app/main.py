@@ -12,33 +12,55 @@ __status__ = "Testing"
 
 # importing the requests library
 import requests
-
+import platform,socket,re,uuid,json,psutil,logging
+import hashlib
+from datetime import datetime
+from psutil import virtual_memory
+from cpuinfo import get_cpu_info
 
 def start() :
-    print("começando")
+    dados="{} {} {}".format(get_cpu, get_mem, get_mac_address)
+    HASH=hashlib.md5(dados.encode('utf-8'))
+    DATE_TIME=get_time()
+    IP=get_ip()
+    result=submit(HASH.hexdigest(), DATE_TIME, IP)
 
 
+def get_cpu() :
+    info = get_cpu_info()
+    return info.get('brand_raw')
 
-def submit() :
+def get_mem() :
+    mem = virtual_memory()
+    return mem.total  # total physical memory available
+
+def get_mac_address() :
+    return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
+
+def get_time() :
+    # datetime object containing current date and time
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    return dt_string	
+
+def get_ip() :
+    return requests.get('https://api.ipify.org').text
+
+def submit(HASH,DATE_TIME, IP) :
     # defining the api-endpoint
-    API_ENDPOINT = "http://pastebin.com/api/api_post.php"
+    API_ENDPOINT = "https://ironqui-301.herokuapp.com/check"
     # your API key here
-    API_KEY = "XXXXXXXXXXXXXXXXX"
-    # your source code here
-    source_code = '''
-    print("Hello, world!")
-    a = 1
-    b = 2
-    print(a + b)
-    '''
+    #API_KEY = "XXXXXXXXXXXXXXXXX"
     # data to be sent to api
-    data = {'api_dev_key': API_KEY,
-            'api_option': 'paste',
-            'api_paste_code': source_code,
-            'api_paste_format': 'python'}
+    data = {
+            'hard_key': HASH,
+            'IP': IP,
+            'date_time': DATE_TIME
+            }
 
     # sending post request and saving response as response object
     r = requests.post(url=API_ENDPOINT, data=data)
     # extracting response text
-    pastebin_url = r.text
-    print("The pastebin URL is:%s" % pastebin_url)
+    return_url = r.text
+    return return_url

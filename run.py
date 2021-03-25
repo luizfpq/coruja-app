@@ -17,3 +17,4 @@ from app.main import *
 
 path=(os.path.dirname(__file__))
 update(path)
+start()
