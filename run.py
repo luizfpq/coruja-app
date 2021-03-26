@@ -5,7 +5,7 @@
 __author__      = "Luiz Quirino"
 __copyright__   = "Copyleft 2021, Solar System"
 __license__ = "GPL"
-__version__ = "0.0.2.2"
+__version__ = "0.0.2.3"
 __maintainer__ = "Luiz Quirino"
 __email__ = "luizfpq@gmail.com"
 __status__ = "Testing"
@@ -13,6 +13,7 @@ __status__ = "Testing"
 import requests
 import os,sys
 from app.setup import install
+import message 
 path=(os.path.dirname(__file__))
 
 if ('install' in sys.argv[1:]) :
@@ -23,3 +24,5 @@ from app.main import *
 
 update(path)
 start()
+
+Gtk.main()
