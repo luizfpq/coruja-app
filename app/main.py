@@ -5,63 +5,47 @@
 __author__ = "Luiz Quirino"
 __copyright__ = "Copyleft 2021, Solar System"
 __license__ = "GPL"
-__version__ = "0.0.2.4"
+__version__ = "0.0.3"
 __maintainer__ = "Luiz Quirino"
 __email__ = "luizfpq@gmail.com"
 __status__ = "Testing"
 
 # importing the requests library
-import requests
-import platform,socket,re,uuid,json,psutil,logging
-import hashlib
-from datetime import datetime
-from psutil import virtual_memory
-from cpuinfo import get_cpu_info
+from app.getters import get_name, get_cpu, get_mem, get_disk, get_mac_address, get_time, get_ip
 
-def start() :
-    dados="{} {} {}".format(get_cpu, get_mem, get_mac_address)
-    HASH=hashlib.md5(dados.encode('utf-8'))
+import configparser
+import hashlib
+import requests
+
+
+
+
+def start(file_path) :
+    
+    config = configparser.ConfigParser()
+    config.read(file_path)
+
+
+    dados="{}{}{}{}{}".format(get_name, get_cpu, get_mem, get_disk()[0].get('total'), get_mac_address)
+    HASH=hashlib.md5(dados.encode('utf-8')).hexdigest()
     DATE_TIME=get_time()
     IP=get_ip()
-    print("{} {} {}".format(HASH.hexdigest(), IP, DATE_TIME))
-    result=submit(HASH.hexdigest(), DATE_TIME, IP)
+    if config.get('DEFAULT','HARD_HASH') == HASH:
+        HASH_STATUS = 0
+    else:
+        HASH_STATUS = 1
 
-
-def get_cpu() :
-    info = get_cpu_info()
-    return info.get('brand_raw')
-
-def get_mem() :
-    mem = virtual_memory()
-    return mem.total  # total physical memory available
-
-def get_mac_address() :
-    return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
-
-def get_time() :
-    # datetime object containing current date and time
-    now = datetime.now()
-    # dd/mm/YY H:M:S
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    return dt_string	
-
-def get_ip() :
-    return requests.get('https://api.ipify.org').text
-
-def submit(HASH,DATE_TIME, IP) :
-    # defining the api-endpoint
-    API_ENDPOINT = "https://ironqui-301.herokuapp.com/api/log"
-    # your API key here
-    #API_KEY = "XXXXXXXXXXXXXXXXX"
-    # data to be sent to api
     data = {
             'hard_key': HASH,
             'ip': IP,
-            'date_time': DATE_TIME
+            'date_time': DATE_TIME,
+            'hash_status': HASH_STATUS
             }
+    
+    result=requests.post('https://ironqui-301.herokuapp.com/api/log',  data=data)
 
-    # sending post request and saving response as response object
-    r = requests.get(url=API_ENDPOINT, data=data)
-    # extracting response text
-    return_url = r.text
-    return return_url
+    if not result:
+        #TODO: implementar salvamento em arquivo local
+        print("deu ruim")
+    else:
+        print(result.text)

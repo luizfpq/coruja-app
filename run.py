@@ -5,21 +5,26 @@
 __author__      = "Luiz Quirino"
 __copyright__   = "Copyleft 2021, Solar System"
 __license__ = "GPL"
-__version__ = "0.0.2.4"
+__version__ = "0.0.3"
 __maintainer__ = "Luiz Quirino"
 __email__ = "luizfpq@gmail.com"
 __status__ = "Testing"
 
+
 import requests
 import os,sys
-from app.setup import install
 path=(os.path.dirname(__file__))
+from app.setup import install, register
+
 
 if ('install' in sys.argv[1:]) :
     install()
+if ('register' in sys.argv[1:]) :
+    install()
+    register('{}/app/env/REGISTER'.format(path))
 
 from app.update import update
-from app.main import *
-
 update(path)
-start()
+
+from app.main import start
+start('{}/app/env/REGISTER'.format(path))
