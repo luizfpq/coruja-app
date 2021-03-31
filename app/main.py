@@ -20,7 +20,7 @@ import requests
 
 
 
-def start(file_path) :
+def start(file_path, action) :
     
     config = configparser.ConfigParser()
     config.read(file_path)
@@ -39,7 +39,8 @@ def start(file_path) :
     data = {
             'hard_hash': HASH,
             'ip': IP,
-            'hard_hash_status': HASH_STATUS
+            'hard_hash_status': HASH_STATUS,
+            'action': action
             }
     
 
