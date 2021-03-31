@@ -16,10 +16,13 @@ import os,sys
 path=(os.path.dirname(__file__))
 from app.setup import install, register
 
+
 if ('install' in sys.argv[1:]) :
     install()
+    action = 'install'
 elif ('register' in sys.argv[1:]) :
     install()
+    action='register'
     register('{}/app/env/REGISTER'.format(path))
 elif ('login' in sys.argv[1:]):
     action = 'login'
@@ -28,8 +31,8 @@ elif ('logout' in sys.argv[1:]) :
 elif ('shutdown' in sys.argv[1:]) :
     action = 'shutdown'
 else:
-    action = 'log'
-
+    action='log'
+    
 from app.update import update
 update(path)
 

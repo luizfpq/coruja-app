@@ -6,13 +6,14 @@ import configparser
 import os
 import requests
 import hashlib
+import json
 
 from app.getters import get_name, get_cpu, get_mem, get_disk, get_mac_address, get_time, get_ip, get_os
 
 __author__ = "Luiz Quirino"
 __copyright__ = "Copyleft 2021, Solar System"
 __license__ = "GPL"
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __maintainer__ = "Luiz Quirino"
 __email__ = "luizfpq@gmail.com"
 __status__ = "Testing"
@@ -54,7 +55,7 @@ def register(file_path):
     config_status = 0
 
     if not config.get('DEFAULT','HARD_HASH'):
-        dados="{}{}{}{}{}".format(get_name, get_cpu, get_mem, get_disk()[0].get('total'), get_mac_address)
+        dados="{}{}{}{}{}".format(get_name(), get_cpu(), get_mem(), get_disk()[0].get('total'), get_mac_address())
         config['DEFAULT']['HARD_HASH'] = str(hashlib.md5(dados.encode('utf-8')).hexdigest())
         print(config.get('DEFAULT','HARD_HASH'))
         config_status = 1
@@ -97,11 +98,12 @@ def register(file_path):
             'mac': config.get('DEFAULT','mac')
             }
     
-
-    result=requests.post('https://ironqui-301.herokuapp.com/api/machineAdd',  data=data)
+    headers = {'user-agent': 'coruja/{}'.format(__version__)}
+    result=requests.post(url='https://ironqui-301.herokuapp.com/api/machineAdd',  data=data, headers=headers)
 
     if not result:
         #TODO: implementar salvamento em arquivo local
-        print("deu ruim")
+        print(data)
+        print(result)
     else:
         print(result.text)
