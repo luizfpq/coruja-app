@@ -57,7 +57,7 @@ def get_disk():
 
 ''' NETWORK ITEMS '''
 def get_ip():
-    return requests.get('https://api.ipify.org').text
+    return requests.get('https://ironqui-301.herokuapp.com/api/get_ip').text
 
 def get_mac_address():
     return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
