@@ -70,7 +70,7 @@ def get_name():
     return os.uname()[1]
 
 def get_os():
-    version = os.uname()['release']
+    version = os.uname()[2]
     if 'ubuntu' in version:
         return 'UBUNTU'
     if 'arch' in version:

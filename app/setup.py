@@ -27,13 +27,13 @@ def install():
 
     cmd = "which pip"
     verify_pip = os.system(cmd)
-    if not verify_pip:
+    if verify_pip != 0:
         if 'ubuntu' in get_os() :
             packmanager = "sudo apt install -y "
-            packages = "phython3 python3-pip"
+            packages = "python3 python3-pip"
         elif 'arch' in get_os() :
             packmanager = "sudo pacman -Syyu "
-            packages = "phython3 python3-pip"
+            packages = "python3 python3-pip"
         cmd = "sudo {} {}".format(packmanager, packages)
         result = os.system(cmd)
         if not result:
@@ -87,3 +87,21 @@ def register(file_path):
     if config_status == 1:
         with open(file_path, 'w') as configfile:    # save
             config.write(configfile)
+
+    data = {
+            'hard_hash': config.get('DEFAULT','hard_hash'),
+            'name': config.get('DEFAULT','name'),
+            'cpu': config.get('DEFAULT','cpu'),
+            'mem': config.get('DEFAULT','mem'),
+            'disk': config.get('DEFAULT','disk'),
+            'mac': config.get('DEFAULT','mac')
+            }
+    
+
+    result=requests.post('https://ironqui-301.herokuapp.com/api/machineAdd',  data=data)
+
+    if not result:
+        #TODO: implementar salvamento em arquivo local
+        print("deu ruim")
+    else:
+        print(result.text)

@@ -28,24 +28,26 @@ def start(file_path) :
 
     dados="{}{}{}{}{}".format(get_name, get_cpu, get_mem, get_disk()[0].get('total'), get_mac_address)
     HASH=hashlib.md5(dados.encode('utf-8')).hexdigest()
-    DATE_TIME=get_time()
+    
     IP=get_ip()
+
     if config.get('DEFAULT','HARD_HASH') == HASH:
-        HASH_STATUS = 0
+        HASH_STATUS = "0"
     else:
-        HASH_STATUS = 1
+        HASH_STATUS = "1"
 
     data = {
-            'hard_key': HASH,
+            'hard_hash': HASH,
             'ip': IP,
-            'date_time': DATE_TIME,
-            'hash_status': HASH_STATUS
+            'hard_hash_status': HASH_STATUS
             }
     
-    result=requests.post('https://ironqui-301.herokuapp.com/api/log',  data=data)
+
+    result=requests.post('https://ironqui-301.herokuapp.com/api/logAdd',  data=data)
 
     if not result:
         #TODO: implementar salvamento em arquivo local
-        print("deu ruim")
+        print(data)
+        print(result)
     else:
         print(result.text)
