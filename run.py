@@ -38,4 +38,4 @@ update(path)
 
 from app.main import start
 
-start('{}/app/env/REGISTER'.format(path), action)
+#start('{}/app/env/REGISTER'.format(path), action)
